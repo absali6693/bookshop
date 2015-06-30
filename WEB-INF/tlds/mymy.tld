@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+"http://java.sun.com/j2ee/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+<tlib-version>1.0</tlib-version>
+<jsp-version>1.2</jsp-version>
+<short-name>simple</short-name>
+<uri>http://tomcat.apache.org/example-taglib</uri>
+<description>
+My projects tag handler class
+</description>
+<tag>
+<name>AuthorComboBox</name>
+<tag-class>com.thinking.machines.bookshop.tags.AuthorComboBoxTagHandler</tag-class>
+<description> whatever </description>
+<attribute>
+<name>id</name>
+<required>true</required>
+<rtexprvalue>false</rtexprvalue>
+</attribute>
+<attribute>
+<name>name</name>
+<required>true</required>
+<rtexprvalue>false</rtexprvalue>
+</attribute>
+</tag>
+
+<tag>
+<name>Author</name>
+<tag-class>com.thinking.machines.bookshop.tags.AuthorTagHandler</tag-class>
+<tei-class>com.thinking.machines.bookshop.tags.AuthorTagHandlerTEI</tei-class>
+<description> whatever </description>
+<attribute>
+<name>fromRecordNumber</name>
+<required>true</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+<attribute>
+<name>uptoRecordNumber</name>
+<required>true</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+<attribute>
+<name>orderBy</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+<attribute>
+<name>code</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+<attribute>
+<name>city</name>
+<required>false</required>
+<rtexprvalue>true</rtexprvalue>
+</attribute>
+</tag>
+<tag>
+<name>City</name>
+<tag-class>com.thinking.machines.bookshop.tags.CityTagHandler</tag-class>
+<tei-class>com.thinking.machines.bookshop.tags.CityTagHandlerTEI</tei-class>
+<description> whatever </description>
+</tag>
+</taglib>

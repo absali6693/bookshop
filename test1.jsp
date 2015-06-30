@@ -1,0 +1,115 @@
+<%@taglib uri='/WEB-INF/tlds/mymy.tld' prefix='tmtags' %>
+<jsp:include page='/MasterPageTopSection.jsp' />
+<%
+int authorFromPageNumber=1;
+int authorUptoPageNumber=5;
+int authorPageSize=5;
+int authorPageNumber=1;
+int authorFromRecordNumber=1;
+int authorUptoRecordNumber=1;
+if(request.getParameter("authorPageSize")!=null)
+{ 
+authorPageSize=Integer.parseInt(request.getParameter("authorPageSize"));
+} 
+if(request.getParameter("authorPageNumber")!=null)
+{ 
+authorPageNumber=Integer.parseInt(request.getParameter("authorPageNumber"));
+} 
+if(request.getParameter("authorFromPageNumber")!=null)
+{
+authorFromPageNumber=Integer.parseInt(request.getParameter("authorFromPageNumber"));
+}
+if(request.getParameter("authorUptoPageNumber")!=null)
+{
+authorUptoPageNumber=Integer.parseInt(request.getParameter("authorUptoPageNumber"));
+}
+
+authorFromRecordNumber=(authorPageNumber-1)*authorPageSize+1;
+authorUptoRecordNumber=authorPageNumber*authorPageSize;
+%>
+<script language='javascript'>
+function updateAuthorsList()
+{
+var authorPaginationForm=document.getElementById("authorPaginationForm");
+var authorPageSizeComboBox=document.getElementById("pageSize").value;
+authorPaginationForm.authorPageSize.value=authorPageSizeComboBox;
+authorPaginationForm.submit();
+}
+function goToPage(pageNumber)
+{
+var authorPaginationForm=document.getElementById("authorPaginationForm");
+var pageNumber=pageNumber;
+authorPaginationForm.authorPageNumber.value=pageNumber;
+if(authorPaginationForm.pageNumber%5==0)
+{
+pageNumber=pageNumber-4;
+}
+authorPaginationForm.submit();
+}
+function onNextClicked(fromPageNumber)
+{
+var fromPageNumber=authorFromPageNumber+1;
+var uptoPageNumber=fromPageNumber+4;
+var authorPaginationForm=document.getElementById("authorPaginationForm");
+authorPaginationForm.authorFromPageNumber.value=fromPageNumber;
+authorPaginationForm.authorUptoPageNumber.value=uptoPageNumber;
+authorPaginationForm.submit();
+}
+</script>
+<h1>Author (List Module) </h1>
+<h4>Page Number <%=authorPageNumber%></h4>
+<table border='1'>
+<thead>
+<tr>
+<th>S.No.</th>
+<th>Code</th>
+<th>Name</th>
+<th>City</th>
+</tr>
+</thead>
+<tbody>
+<tmtags:Author fromRecordNumber='<%=authorFromRecordNumber%>' uptoRecordNumber='<%=authorUptoRecordNumber%>' orderBy='code'>
+<tr>
+<td><%=serialNumber%></td>
+<td><%=code%></td>
+<td><%=name%></td>
+<td><%=city%></td>
+</tr>
+</tmtags:Author>
+</tbody>
+</table>
+<%
+out.println("<a href='javascript:onNextClicked("+authorFromPageNumber+")'>previous</a>");
+int x;
+x=authorFromPageNumber;
+while(x<=authorUptoPageNumber)
+{
+out.println("<a href='javascript:goToPage("+x+")'>"+x+"</a>&nbsp;&nbsp;&nbsp;");
+x++;
+}
+out.println("<a href='javascript:onNextClicked("+authorFromPageNumber+")'>next</a>");
+/*a loop that should create 5 hyper links
+next / and previous should appear or not (dynamic)
+Current page number (should not be a link)
+out.println("<a href='javascript:goToPage('author',"+x+")'>"+x+"</a>&nbsp;&nbsp;&nbsp;");
+*/
+%>
+<br>
+<br>
+<br>
+<select id='pageSize' name='pageSize' onchange='updateAuthorsList()'>
+<option value=''>&lt;All&gt;</option>
+<option>5</option>
+<option>10</option>
+<option>15</option>
+<option>20</option>
+</select>
+<form action='/bookshop/test1.jsp' id='authorPaginationForm'>
+&nbsp &nbsp   Page Size &nbsp
+<input type='text' id='authorPageSize' name='authorPageSize' value='<%=authorPageSize%>'>
+&nbsp &nbsp Page Number
+<input type='text' id='authorPageNumber' name='authorPageNumber' value='<%=authorPageNumber%>'>
+<input type='hidden' id='authorUptoPageNumber' name='authorUptoPageNumber' value='<%=authorUptoPageNumber%>'>
+<input type='hidden' id='authorFromPageNumber' name='authorFromPageNumber' value='<%=authorFromPageNumber%>'>
+</form>
+<jsp:include page='/MasterPageBottomSection.jsp' />
