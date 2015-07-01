@@ -1,13 +1,11 @@
-<%@taglib uri='/WEB-INF/tlds/mymy.tld' prefix='tmtags' %>
+<%@taglib uri='/WEB-INF/tlds/mymy.tld' prefix='tmtags'%>
 <jsp:include page='/MasterPageTopSection.jsp' />
 
 <%
 int authorFromRecordNumber=1;
 int authorUptoRecordNumber=1;
 int authorPageSize=5;
-int authorPageSizeTemp=0;
 int authorPageNumber=1;
-
 if(request.getParameter("authorPageSize")!=null)
 { 
 authorPageSize=Integer.parseInt(request.getParameter("authorPageSize"));
@@ -23,34 +21,24 @@ authorUptoRecordNumber=authorPageNumber*authorPageSize;
 function updateAuthorPageSize()
 {
 authorFromRecordNumber=authorPageSize.value*(authorPageNumber.value-1)+1;
-authorUptoRecordNumber=authorFromRecordNumber+authorPageSize.value;
-var authorPageSizeTemp=authorPageSize;
+authorUptoRecordNumber=authorPageNumber.value*authorPageSize.value;
 authorPageSize = document.getElementById("authorPageSizeComboBox").value;
+if(authorPageSize==1){
+document.getElementById("authorPageSize").value = authorPageSize;
+document.getElementById("authorPageNumber").value =parseInt((authorFromRecordNumber/authorPageSize)) ;
+document.getElementById("authorPaginationForm").submit();
+}
 var i=0;
-for(i=authorFromRecordNumber;i>=authorUptoRecordNumber;i++)
+for(i=authorFromRecordNumber;i<=authorUptoRecordNumber;i++)
 {
 if(i%authorPageSize==0) break;
 }
-if(i<authorUptoRecordNumber)
-{
 authorPageNumber=parseInt((authorFromRecordNumber/authorPageSize)+1);
-}
-else{
-i--;
-if(i<(authorUptoRecordNumber/2))
-{
-authorPageNumber=parseInt((authorFromRecordNumber/authorPageSize)+1);
-}
-else authorPageNumber=parseInt((authorFromRecordNumber/authorPageSize)+2);
-}
-if(authorPageSizeTemp>authorPageSize)
-{
-authorPageNumber=parseInt((authorFromRecordNumber/authorPageSize)+1);
-}
+if(i>authorUptoRecordNumber || (i-authorFromRecordNumber+1)==authorPageSize ||(i-authorFromRecordNumber+1)>=(authorUptoRecordNumber-i)||authorPageSize<=(authorUptoRecordNumber-i));
+else	authorPageNumber+=1;
 document.getElementById("authorPageSize").value = authorPageSize;
 document.getElementById("authorPageNumber").value = authorPageNumber;
 document.getElementById("authorPaginationForm").submit();
-
 }
 function updateAuthorPageNumber(x)
 {
